@@ -40,8 +40,9 @@ class Ui_MainWindow(QMainWindow):
         ###
         # Setting up the Window and Layout
         ###
-        # loading the data using OpenCSV.py, data2 as backup to data
-        self.data = self.csv_opener()
+        # creating a demo dataframe
+
+        self.data = pd.DataFrame(np.random.randint(0,100,size=(100, 8)), columns=list('ABCDEFGH'))
         self.data2 = self.data.copy()
 
         # window setup
@@ -403,10 +404,6 @@ class Ui_MainWindow(QMainWindow):
         self.comboboxdata()
 
     def loaddata(self):
-        # Load a new dataframe
-        if self.data.empty:
-            self.emptydataalert()
-            return
         self.fname = QFileDialog.getOpenFileName(self, 'Open file',
                                                  'c:\\', "table (*.csv *.xls)")
         if self.fname != ("", ""):
@@ -416,7 +413,7 @@ class Ui_MainWindow(QMainWindow):
         self.table.setModel(model2)
         self.comboboxdata()
 
-    def csv_opener(self, filename="countries-of-the-world.csv"):
+    def csv_opener(self, filename):
         try:
             # opening loading and dropping na's from the table
             df = pd.read_csv(filename)
